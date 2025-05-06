@@ -17,55 +17,6 @@ export default apiInitializer("1.8.0", (api) => {
       }
     );
 
-    api.decorateWidget("post-menu:after", (helper) => {
-      const canTranslate = helper.attrs.can_translate;
-      const isTranslating = helper.widget.state.isTranslating;
-      const isTranslated = helper.widget.state.isTranslated;
-      const translateError = helper.widget.state.translateError;
-
-      if (!canTranslate || isTranslated || isTranslating || translateError) {
-        return;
-      }
-
-      return helper.attach("button", {
-        action: "translatePost",
-        title: "Traduire ce post",
-        icon: "globe",
-      });
-    });
-
-    api.modifyClass("component:post-menu", {
-      pluginId: "header-locale-selector",
-      actions: {
-        translatePost() {
-          const post = this.attrs;
-          const state = this.state;
-
-          if (state.isTranslated || state.isTranslating) return;
-
-          state.isTranslating = true;
-          this.scheduleRerender();
-
-          ajax("/translator/translate", {
-            type: "POST",
-            data: { post_id: post.id },
-          })
-            .then((res) => {
-              post.translated_text = res.translation;
-              post.detected_lang = res.detected_lang;
-              state.isTranslated = true;
-            })
-            .catch(() => {
-              state.translateError = true;
-            })
-            .finally(() => {
-              state.isTranslating = false;
-              this.scheduleRerender();
-            });
-        },
-      },
-    });
-
     // api.reopenWidget("post-menu", {
     //   didRenderWidget() {
     //     if (!this.attrs.can_translate) {
