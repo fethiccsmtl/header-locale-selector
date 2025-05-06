@@ -17,6 +17,23 @@ export default apiInitializer("1.8.0", (api) => {
       }
     );
 
+    api.onPageChange(() => {
+      document.querySelectorAll(".topic-post").forEach((post) => {
+        const postMenu = post.querySelector(".post-controls");
+
+        if (postMenu && !postMenu.querySelector(".translate-btn")) {
+          const btn = document.createElement("button");
+          btn.innerText = "Traduire";
+          btn.className = "btn btn-icon translate-btn";
+          btn.addEventListener("click", () => {
+            const postId = post.dataset.postId;
+            // appel ajax ici avec postId
+          });
+          postMenu.appendChild(btn);
+        }
+      });
+    });
+
     // api.reopenWidget("post-menu", {
     //   didRenderWidget() {
     //     if (!this.attrs.can_translate) {
