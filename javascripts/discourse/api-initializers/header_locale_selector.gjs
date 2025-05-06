@@ -2,7 +2,7 @@ import { ajax } from "discourse/lib/ajax";
 import { apiInitializer } from "discourse/lib/api";
 import LocaleSelector from "../components/locale-selector";
 
-export default apiInitializer("1.28.0", (api) => {
+export default apiInitializer("1.8.0", (api) => {
   const siteSettings = api.container.lookup("site-settings:main");
   const currentUser = api.getCurrentUser();
 
