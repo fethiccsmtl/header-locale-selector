@@ -19,9 +19,10 @@ export default apiInitializer("1.8.0", (api) => {
 
     api.decorateWidget("post-menu:after", (helper) => {
       const attrs = helper.attrs;
-      console.log("can_translate", attrs.id, attrs.can_translate, attrs);
       const post = helper.getModel();
       post.set("can_translate", true);
+      console.log("can_translate", attrs.id, attrs.can_translate, attrs);
+
 
       return [];
     });
